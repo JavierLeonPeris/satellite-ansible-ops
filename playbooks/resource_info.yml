@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  vars:
+    login: &login
+      server_url: "{{ server_url}}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      validate_certs: "{{ validate_certs }}"
+  tasks:
+  - name: "Show available options"
+    redhat.satellite.resource_info:
+      <<: *login
+      resource: "{{ resource }}"
+    register: result
+  - debug:
+      var: result
