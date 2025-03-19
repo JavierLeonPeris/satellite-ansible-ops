@@ -25,6 +25,10 @@
     debug:
       msg: "{{ ansible_date_time.epoch | int }}"
 
+  - name: Show last sync time
+    debug:
+      var: "{{ result.resources[0].last_sync.ended_at }}"
+
   - name: Show variable time in seconds
     debug:
       var: "{{ result.resources[0].last_sync.ended_at| split | first | to_datetime('%Y-%m-%d') }}"
