@@ -31,7 +31,7 @@
 
   - name: Show last_sync variable time in seconds
     debug:
-      var: "{{ result.resources[0].last_sync.ended_at| split | first | to_datetime('%Y-%m-%d').seconds }}"
+      var: "{{ (result.resources[0].last_sync.ended_at| split | first | to_datetime('%Y-%m-%d')).strftime('%s') }}"
 
   - name: "Check if ended is less than 7 days"
     assert:
