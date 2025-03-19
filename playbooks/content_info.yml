@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  vars:
+    login: &login
+      server_url: "{{ server_url}}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      validate_certs: "{{ validate_certs }}"
+
+  tasks:
+  - name: "List all imports in the organization"
+    redhat.satellite.content_import_info:
+      <<: *login
+      organization: "Default Organization"
+      type: complete
+  - name: "Get a specific import history entry"
+    redhat.satellite.content_import_info:
+      <<: *login
+      id: 29
+      organization: "Default Organization"
+  - name: "List all imports of a specific content view version"
+    redhat.satellite.content_import_info:
+      <<: *login
+      content_view: RHEL8
+      content_view_version: '1.0'
+      organization: "Default Organization"
