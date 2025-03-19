@@ -15,5 +15,10 @@
       resource: "repositories"
     register: result
 
-  - debug:
-      var: result.resources[0]
+  - name: "Check if result is successful"
+    debug:
+      var: result.resources[0].last_sync.result
+
+  - name: "Check if ended is less than 2 days"
+    debug:
+      var: result.resources[0].last_sync.ended_at
