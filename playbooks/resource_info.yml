@@ -16,4 +16,4 @@
     register: result
 
   - debug:
-      var: result[0]
+      var: result.resources[0]
