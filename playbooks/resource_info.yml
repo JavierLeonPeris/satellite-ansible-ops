@@ -21,6 +21,14 @@
         - result.resources[0].last_sync.result == "success"
       fail_msg: "The last sync result is not successful."
 
+  - name: Show current time in seconds
+    debug:
+      msg: "{{ ansible_date_time.epoch | int }}"
+
+  - name: Show variable time in seconds
+    debug:
+      msg: "{{ result.resources[0].last_sync.ended_at| split | first | to_datetime('%Y-%m-%d') }}"
+
   - name: "Check if ended is less than 7 days"
     assert:
       that:
