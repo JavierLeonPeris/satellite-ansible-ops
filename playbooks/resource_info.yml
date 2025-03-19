@@ -14,5 +14,6 @@
       <<: *login
       resource: "{{ resource }}"
     register: result
+
   - debug:
-      var: result
+      var: result.0
