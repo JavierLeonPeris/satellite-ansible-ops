@@ -16,9 +16,11 @@
     register: result
 
   - name: "Check if result is successful"
-    debug:
-      var: result.resources[0].last_sync.result
+    assert:
+      that:
+        - result.resources[0].last_sync.result == "success"
+      fail_msg: "The last sync result is not successful."
 
   - name: "Check if ended is less than 2 days"
     debug:
-      var: result.resources[0].last_sync.ended_at
+      var: result.resources[0].last_sync.ended_at | split | first
