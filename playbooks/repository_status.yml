@@ -49,7 +49,7 @@
 
   - name: "Show dictionary of failed repositories data"
     debug:
-      var: failed_repositories_dict_stat
+      msg: "{{ failed_repositories_dict_stat }}"
   
   - name: "Check if failed_repositories_dict is not empty"
     assert:
