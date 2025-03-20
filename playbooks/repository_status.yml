@@ -35,12 +35,6 @@
         - failed_repositories | length == 0
       fail_msg: "There are failed repositories: {{ failed_repositories }}"
 
-  - name: "Check if result is successful"
-    assert:
-      that:
-        - result.resources[0].last_sync.result == "success"
-      fail_msg: "The last sync result is not successful."
-
   - name: Show current time in seconds
     debug:
       msg: "{{ ansible_date_time.epoch | int }}"
@@ -59,5 +53,6 @@
   - name: "Check if ended is less than 7 days"
     assert:
       that:
-        - (ansible_date_time.epoch | int) - ((result.resources[0].last_sync.ended_at| split | first | to_datetime('%Y-%m-%d')).strftime('%s') | int) < 604800
+        - (ansible_date_time.epoch | int) - ((item.last_sync.ended_at| split | first | to_datetime('%Y-%m-%d')).strftime('%s') | int) < 604800
       fail_msg: "The last sync ended more than 7 days ago."
+    loop: "{{ result.resources }}"
