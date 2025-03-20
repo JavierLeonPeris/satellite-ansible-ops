@@ -14,6 +14,10 @@
       failed_repositories: []
       failed_repositories_product: []
 
+  - name: Create an empty dictionary
+    set_fact:
+      failed_repositories_dict: {}
+
   - name: "Show repositories"
     redhat.satellite.resource_info:
       <<: *login
@@ -24,8 +28,13 @@
     set_fact:
       failed_repositories: "{{ failed_repositories + [item.name] }}"
       failed_repositories_product: "{{ failed_repositories_product + [item.product.name] }}"
+      failed_repositories_dict: "{{ failed_repositories_dict | combine({item.name: item.product.name}) }}"
     when: item.last_sync.result is undefined or item.last_sync.result != "success"
     loop: "{{ result.resources }}"
+
+  - name: "Show dictionary of failed repositories"
+    debug:
+      var: failed_repositories_dict
 
   - name: "Show failed repositories"
     debug:
