@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: yes
+  vars:
+    login: &login
+      server_url: "{{ server_url}}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      validate_certs: "{{ validate_certs }}"
+  tasks:
+  - name: "Sync repository"
+    redhat.satellite.repository_sync:
+      <<: *login
+      repository: "{{ item.name }}"
+      product: "{{ item.value }}"
+      organization: "Default Organization"
+    loop: "{{ failed_repositories_dict }}"
