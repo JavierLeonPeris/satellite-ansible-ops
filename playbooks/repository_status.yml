@@ -28,8 +28,8 @@
     set_fact:
       #failed_repositories: "{{ failed_repositories + [item.name] }}"
       #failed_repositories_product: "{{ failed_repositories_product + [item.product.name] }}"
-      #failed_repositories_dict: "{{ failed_repositories_dict | combine({item.name: item.product.name}) }}"
-      failed_repositories_dict: "{{ failed_repositories_dict | default([]) | combine ({'repo_name': item.name,'product_name': item.product.name}) }}"
+      failed_repositories_dict: "{{ failed_repositories_dict | combine({item.name: item.product.name}) }}"
+      #failed_repositories_dict: "{{ failed_repositories_dict | default([]) | combine ({'repo_name': item.name,'product_name': item.product.name}) }}"
     when: item.last_sync.result is undefined or item.last_sync.result != "success"
     loop: "{{ result.resources }}"
 
@@ -41,10 +41,6 @@
     set_stats:
       data:
         failed_repositories_dict_2: "{{ failed_repositories_dict }}"
-
-  - name: "Show dictionary of failed repositories product"
-    debug:
-      var: repo_product
   
   - name: "Check if failed_repositories_dict is not empty"
     assert:
