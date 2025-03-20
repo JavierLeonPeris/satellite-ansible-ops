@@ -12,6 +12,7 @@
   - name: Create an empty list
     set_fact:
       failed_repositories: []
+      failed_repositories_product: []
 
   - name: "Show repositories"
     redhat.satellite.resource_info:
@@ -22,12 +23,17 @@
   - name: "Check if result is successful and add failed repositories to the list"
     set_fact:
       failed_repositories: "{{ failed_repositories + [item.name] }}"
+      failed_repositories_product: "{{ failed_repositories_product + [item.product.name] }}"
     when: item.last_sync.result is undefined or item.last_sync.result != "success"
     loop: "{{ result.resources }}"
 
   - name: "Show failed repositories"
     debug:
       var: failed_repositories
+
+  - name: "Show failed products"
+    debug:
+      var: failed_repositories_product
 
   - name: "Check if failed_repositories is not empty"
     assert:
