@@ -22,7 +22,7 @@
   - name: "Check if result is successful and add failed repositories to the list"
     set_fact:
       failed_repositories: "{{ failed_repositories + [item.name] }}"
-    when: item.last_sync.result is None or item.last_sync.result != "success"
+    when: item.last_sync.result is undefined or item.last_sync.result != "success"
     loop: "{{ result.resources }}"
 
   - name: "Show failed repositories"
