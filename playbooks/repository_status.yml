@@ -52,7 +52,7 @@
 
   - name: "Show dictionary of failed repositories"
     debug:
-      var: repo_name
+      msg: "{{ repo_name }}"
 
   - name: "Show dictionary of failed repositories product"
     debug:
