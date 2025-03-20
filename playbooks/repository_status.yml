@@ -29,6 +29,12 @@
     debug:
       var: failed_repositories
 
+  - name: "Check if failed_repositories is not empty"
+    assert:
+      that:
+        - failed_repositories | length > 0
+      fail_msg: "There are failed repositories: {{ failed_repositories }}"
+
   - name: "Check if result is successful"
     assert:
       that:
