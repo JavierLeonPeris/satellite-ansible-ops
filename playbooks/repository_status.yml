@@ -25,10 +25,11 @@
     register: result
 
   - name: "Check if result is successful and add failed repositories to the list"
-    set_fact:
-      #failed_repositories: "{{ failed_repositories + [item.name] }}"
-      #failed_repositories_product: "{{ failed_repositories_product + [item.product.name] }}"
-      failed_repositories_dict: "{{ failed_repositories_dict | combine({item.name: item.product.name}) }}"
+    set_stats:
+      data:
+        #failed_repositories: "{{ failed_repositories + [item.name] }}"
+        #failed_repositories_product: "{{ failed_repositories_product + [item.product.name] }}"
+        failed_repositories_dict: "{{ failed_repositories_dict | combine({item.name: item.product.name}) }}"
     when: item.last_sync.result is undefined or item.last_sync.result != "success"
     loop: "{{ result.resources }}"
 
