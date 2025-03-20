@@ -45,11 +45,17 @@
   - name: "Prepare data for the next playbook"
     set_stats:
       data:
-        failed_repositories_dict_stat: "{{ failed_repositories_dict }}"
+        repo_name: "{{ item.name }}"
+        repo_product: "{{ item.product.name }}"
+    loop: "{{ result.resources }}"
 
-  - name: "Show dictionary of failed repositories data"
+  - name: "Show dictionary of failed repositories"
     debug:
-      msg: "{{ failed_repositories_dict_stat }}"
+      var: repo_name
+
+  - name: "Show dictionary of failed repositories product"
+    debug:
+      var: repo_product
   
   - name: "Check if failed_repositories_dict is not empty"
     assert:
