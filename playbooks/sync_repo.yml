@@ -20,4 +20,4 @@
       repository: "{{ item.name }}"
       product: "{{ item.value }}"
       organization: "Default Organization"
-    loop: "{{ failed_repositories_dict_2 }}"
+    loop: "{{ failed_repositories_dict_2 | dict2items }}"
