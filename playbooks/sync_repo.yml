@@ -12,11 +12,12 @@
   - name: Display content of failed_repositories_dict_2
     debug:
       var: failed_repositories_dict_2
-      
-  #- name: "Sync repository"
-  #  redhat.satellite.repository_sync:
-  #    <<: *login
-  #    repository: "{{ repo_name }}"
-  #    product: "{{ repo_product }}"
-  #    organization: "Default Organization"
-    #loop: "{{ failed_repositories_dict }}"
+      verbosity: 1
+
+  - name: "Sync repository"
+    redhat.satellite.repository_sync:
+      <<: *login
+      repository: "{{ item.name }}"
+      product: "{{ item.value }}"
+      organization: "Default Organization"
+    loop: "{{ failed_repositories_dict_2 }}"
