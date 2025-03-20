@@ -25,24 +25,31 @@
     register: result
 
   - name: "Check if result is successful and add failed repositories to the list"
-    set_stats:
-      data:
-        #failed_repositories: "{{ failed_repositories + [item.name] }}"
-        #failed_repositories_product: "{{ failed_repositories_product + [item.product.name] }}"
-        failed_repositories_dict: "{{ failed_repositories_dict | combine({item.name: item.product.name}) }}"
+    set_fact:
+      #failed_repositories: "{{ failed_repositories + [item.name] }}"
+      #failed_repositories_product: "{{ failed_repositories_product + [item.product.name] }}"
+      failed_repositories_dict: "{{ failed_repositories_dict | combine({item.name: item.product.name}) }}"
     when: item.last_sync.result is undefined or item.last_sync.result != "success"
     loop: "{{ result.resources }}"
 
   - name: "Show dictionary of failed repositories"
     debug:
       var: failed_repositories_dict
-      verbosity: 1
 
   #- name: "Check if failed_repositories is not empty"
   #  assert:
   #    that:
   #      - failed_repositories | length == 0
   #    fail_msg: "There are failed repositories: {{ failed_repositories }}"
+
+  - name: "Prepare data for the next playbook"
+    set_stats:
+      data:
+        failed_repositories_dict_stat: "{{ failed_repositories_dict }}"
+
+  - name: "Show dictionary of failed repositories data"
+    debug:
+      var: failed_repositories_dict_stat
   
   - name: "Check if failed_repositories_dict is not empty"
     assert:
