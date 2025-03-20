@@ -9,10 +9,14 @@
       password: "{{ password }}"
       validate_certs: "{{ validate_certs }}"
   tasks:
-  - name: "Sync repository"
-    redhat.satellite.repository_sync:
-      <<: *login
-      repository: "{{ repo_name }}"
-      product: "{{ repo_product }}"
-      organization: "Default Organization"
+  - name: Display content of failed_repositories_dict_2
+    debug:
+      var: failed_repositories_dict_2
+      
+  #- name: "Sync repository"
+  #  redhat.satellite.repository_sync:
+  #    <<: *login
+  #    repository: "{{ repo_name }}"
+  #    product: "{{ repo_product }}"
+  #    organization: "Default Organization"
     #loop: "{{ failed_repositories_dict }}"

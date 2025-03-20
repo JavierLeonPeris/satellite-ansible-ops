@@ -49,6 +49,7 @@
         #repo_product: "{{ item.product.name }}"
         repo_name: "{{ result.resources[0].name }}"
         repo_product: "{{ result.resources[0].product.name }}"
+        failed_repositories_dict_2: "{{ failed_repositories_dict }}"
     #loop: "{{ result.resources }}"
 
   - name: "Show dictionary of failed repositories product"
