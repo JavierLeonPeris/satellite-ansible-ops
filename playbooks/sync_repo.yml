@@ -20,4 +20,4 @@
       repository: "{{ item.key }}"
       product: "{{ item.value }}"
       organization: "Default Organization"
-    with_dict: "{{ failed_repositories_dict_2 | dict2items }}"
+    loop: "{{ failed_repositories_dict_2 | dict2items }}"
