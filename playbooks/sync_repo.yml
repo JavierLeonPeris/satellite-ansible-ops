@@ -12,7 +12,7 @@
   - name: "Sync repository"
     redhat.satellite.repository_sync:
       <<: *login
-      repository: "{{ item.name }}"
-      product: "{{ item.value }}"
+      repository: "{{ repo_name }}"
+      product: "{{ repo_product }}"
       organization: "Default Organization"
-    loop: "{{ failed_repositories_dict }}"
+    #loop: "{{ failed_repositories_dict }}"

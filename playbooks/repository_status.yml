@@ -48,11 +48,8 @@
         #repo_name: "{{ item.name }}"
         #repo_product: "{{ item.product.name }}"
         repo_name: "{{ result.resources[0].name }}"
+        repo_product: "{{ result.resources[0].product.name }}"
     #loop: "{{ result.resources }}"
-
-  - name: "Show dictionary of failed repositories"
-    debug:
-      msg: "{{ repo_name }}"
 
   - name: "Show dictionary of failed repositories product"
     debug:
