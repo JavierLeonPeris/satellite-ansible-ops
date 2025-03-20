@@ -9,11 +9,25 @@
       password: "{{ password }}"
       validate_certs: "{{ validate_certs }}"
   tasks:
+  - name: Create an empty list
+    set_fact:
+      failed_repositories: []
+
   - name: "Show repositories"
     redhat.satellite.resource_info:
       <<: *login
       resource: "repositories"
     register: result
+
+  - name: "Check if result is successful and add failed repositories to the list"
+    set_fact:
+      failed_repositories: "{{ failed_repositories + [item.name] }}"
+    when: item.last_sync.result != "success"
+    loop: "{{ result.resources }}"
+
+  - name: "Show failed repositories"
+    debug:
+      var: failed_repositories
 
   - name: "Check if result is successful"
     assert:
