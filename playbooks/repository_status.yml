@@ -60,7 +60,7 @@
     #  fail_msg: "The last sync ended more than 7 days ago."
     set_fact:
       failed_repositories_dict: "{{ failed_repositories_dict | combine({item.name: item.product.name}) }}"
-    when: (ansible_date_time.epoch | int) - ((item.last_sync.ended_at| split | first | to_datetime('%Y-%m-%d')).strftime('%s') | int) < 604800
+    when: (ansible_date_time.epoch | int) - ((item.last_sync.ended_at| split | first | to_datetime('%Y-%m-%d')).strftime('%s') | int) > 604800
     loop: "{{ result.resources }}"
 
   - name: "Show dictionary of failed repositories and old synced"
