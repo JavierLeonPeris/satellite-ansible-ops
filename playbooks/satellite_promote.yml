@@ -10,10 +10,23 @@
       validate_certs: "{{ validate_certs }}"
 
   tasks:
-  - name: Promote Content View
-    redhat.satellite.content_view_version:
+  # Obtain information about a Content View and its versions
+  - name: find all CVs
+    redhat.satellite.resource_info:
       <<: *login
-      content_view: "{{ content_view }}"
-      organization: "{{ organization }}"
-      lifecycle_environments: "{{ lifecycle_environment }}"
-      version: "{{ version }}"
+      organization: "Default Organization"
+      resource: content_views
+      search: 'name="{{ content_view }}"'
+    register: example_content
+
+  - name: Display content of example_content
+    debug:
+      var: example_content
+
+  #- name: Promote Content View
+  #  redhat.satellite.content_view_version:
+  #    <<: *login
+  #    content_view: "{{ content_view }}"
+  #    organization: "{{ organization }}"
+  #    lifecycle_environments: "{{ lifecycle_environment }}"
+  #    version: "{{ version }}"
