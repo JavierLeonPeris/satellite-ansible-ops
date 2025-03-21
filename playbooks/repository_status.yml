@@ -36,17 +36,7 @@
   - name: "Show dictionary of failed repositories"
     debug:
       var: failed_repositories_dict
-
-  - name: "Prepare data for the next playbook"
-    set_stats:
-      data:
-        failed_repositories_dict_2: "{{ failed_repositories_dict }}"
-  
-  - name: "Check if failed_repositories_dict is not empty"
-    assert:
-      that:
-        - failed_repositories_dict | length == 0
-      fail_msg: "There are failed repositories: {{ failed_repositories_dict }}"
+      verbosity: 1
 
   - name: Show current time in seconds
     debug:
@@ -64,8 +54,27 @@
       verbosity: 1
 
   - name: "Check if ended is less than 7 days"
+    #assert:
+    #  that:
+    #    - (ansible_date_time.epoch | int) - ((item.last_sync.ended_at| split | first | to_datetime('%Y-%m-%d')).strftime('%s') | int) < 604800
+    #  fail_msg: "The last sync ended more than 7 days ago."
+    set_fact:
+      failed_repositories_dict: "{{ failed_repositories_dict | combine({item.name: item.product.name}) }}"
+    when: (ansible_date_time.epoch | int) - ((item.last_sync.ended_at| split | first | to_datetime('%Y-%m-%d')).strftime('%s') | int) < 604800
+    loop: "{{ result.resources }}"
+
+  - name: "Show dictionary of failed repositories and old synced"
+    debug:
+      var: failed_repositories_dict
+      verbosity: 1
+
+  - name: "Prepare data for the next playbook"
+    set_stats:
+      data:
+        failed_repositories_dict_2: "{{ failed_repositories_dict }}"
+  
+  - name: "Check if failed_repositories_dict is not empty"
     assert:
       that:
-        - (ansible_date_time.epoch | int) - ((item.last_sync.ended_at| split | first | to_datetime('%Y-%m-%d')).strftime('%s') | int) < 604800
-      fail_msg: "The last sync ended more than 7 days ago."
-    loop: "{{ result.resources }}"
+        - failed_repositories_dict | length == 0
+      fail_msg: "There are failed repositories: {{ failed_repositories_dict }}"
