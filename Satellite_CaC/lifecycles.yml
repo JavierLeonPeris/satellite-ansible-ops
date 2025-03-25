@@ -1,0 +1,11 @@
+---
+satellite_lifecycle_environments:
+  - name: "Development"
+    prior: "Library"
+    organization: AIB
+  - name: "Testing"
+    prior: "Development"
+    organization: AIB
+  - name: "Production"
+    prior: "Testing"
+    organization: AIB

@@ -1,0 +1,6 @@
+---
+satellite_activation_keys:
+  - name: "rhel8-development-patching"
+    lifecycle_environment: "Development"
+    content_view: "Patching-RHEL8"
+    organization: "AIB"

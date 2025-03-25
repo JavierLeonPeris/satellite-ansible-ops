@@ -1,0 +1,9 @@
+---
+satellite_sync_plans:
+  - name: Sync plan RHEL
+    interval: weekly
+    sync_date: 2025-01-01 02:39:00 UTC
+    organization: AIB
+    products:
+      - Red Hat Enterprise Linux Server
+      - Red Hat Enterprise Linux for x86_64
