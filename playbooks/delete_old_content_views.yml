@@ -39,8 +39,9 @@
 
     - name: Add versions to cv_version list
       set_fact:
-        cv_version: "{{ cv_version + version_information.resources[0].version }}"
+        cv_version: "{{ cv_version + item.version }}"
       loop: "{{ version_information.resources }}"
+      when: item.version is defined
 
     - name: Display cv_version list
       debug:
