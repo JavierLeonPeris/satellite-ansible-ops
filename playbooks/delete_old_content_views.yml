@@ -33,9 +33,19 @@
         var: version_information
         verbosity: 1
 
-    - name: set latest version
+    - name: Initialize cv_version list
       set_fact:
-        cv_version: "{{ version_information.resources[0].version | int}} - 2"
+        cv_version: []
+
+    - name: Add versions to cv_version list
+      set_fact:
+        cv_version: "{{ cv_version + version_information.resources[0].version }}"
+      loop: "{{ version_information.resources }}"
+
+    - name: Display cv_version list
+      debug:
+        var: cv_version
+        verbosity: 1
 
     - name: Delete older versions
       redhat.satellite.content_view_version:
