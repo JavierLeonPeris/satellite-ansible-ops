@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  vars:
+    satellite_server_url: "{{ server_url}}"
+    satellite_username: "{{ username }}"
+    satellite_password: "{{ password }}"
+    satellite_validate_certs: "{{ validate_certs }}"
+    satellite_organization: "{{ organization }}"
+  vars_files:
+    - Satellite_CaC/content_views.yml
+    - Satellite_CaC/repositories.yml
+  roles:
+    - role: redhat.satellite.content_views
