@@ -33,13 +33,19 @@
         var: version_information
         verbosity: 1
 
+    - name: Display all versions 
+      debug:
+        message: "{{ item.version }}"
+        verbosity: 1
+      loop: "{{ version_information.resources }}"
+
     - name: Initialize cv_version list
       set_fact:
         cv_version: []
 
     - name: Add versions to cv_version list
       set_fact:
-        cv_version: "{{ cv_version + item.version }}"
+        cv_version: "{{ cv_version + [item.version] }}"
       loop: "{{ version_information.resources }}"
       when: item.version is defined
 
