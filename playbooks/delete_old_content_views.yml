@@ -1,0 +1,34 @@
+# Obtain more details about all versions of a specific Content View
+---
+- hosts: localhost
+  connection: local
+  gather_facts: yes
+  vars:
+    login: &login
+      server_url: "{{ server_url}}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      validate_certs: "{{ validate_certs }}"
+  tasks:
+  # Obtain information about a Content View and its versions
+    - name: find all CVs
+      redhat.satellite.resource_info:
+        <<: *login
+        organization: "Default Organization"
+        resource: content_views
+        search: 'name="{{ cv_name }}"'
+      register: example_content
+
+    - name: "find content view versions of {{ cv_name }}"
+      redhat.satellite.resource_info:
+        <<: *login
+        organization: "Default Organization"
+        resource: content_view_versions
+        params:
+          content_view_id: "{{ example_content.resources[0].id }}"
+      register: version_information
+
+    - name: Display content of version_information
+      debug:
+        var: version_information
+        verbosity: 1
