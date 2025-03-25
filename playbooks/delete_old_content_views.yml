@@ -45,4 +45,4 @@
         version: "{{ item.version }}"
         state: absent
       loop: "{{ version_information.resources }}"
-      when: item.version < ("{{ cv_version }}" - 2)
+      when: (item.version | int ) < ("{{ cv_version }}" - 2)
