@@ -12,7 +12,6 @@ satellite_products:
       releasever: 9
     - name: Red Hat Satellite Client 6 for RHEL 9 x86_64 (RPMs)
     - name: Red Hat Satellite Client 6 for RHEL 8 x86_64 (RPMs)
-    - name: Red Hat Ceph Storage Tools 4 for RHEL 8 x86_64 (RPMs)
 
     #all_repositories: true
     #labels:
