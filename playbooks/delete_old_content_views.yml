@@ -45,4 +45,6 @@
         version: "{{ item.version }}"
         state: absent
       loop: "{{ version_information.resources }}"
-      when: (item.version | int ) < ("{{ cv_version }}" - 2)
+      loop_control:
+        index_var: "{{ version_index }}"
+      when: version_index < ("{{ cv_version }}" - 2)
