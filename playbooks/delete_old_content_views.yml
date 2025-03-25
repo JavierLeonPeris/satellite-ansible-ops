@@ -32,3 +32,13 @@
       debug:
         var: version_information
         verbosity: 1
+
+    - name: Delete older versions
+      redhat.satellite.content_view_version:
+        <<: *login
+        organization: "Default Organization"
+        content_view: "{{ cv_name }}"
+        version: "{{ item.version }}"
+        state: absent
+      loop: "{{ version_information.resources }}"
+      when: item.version < ("{{ cv_version | int }} - 2")
