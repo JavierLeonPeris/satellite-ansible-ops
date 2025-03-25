@@ -47,4 +47,4 @@
       loop: "{{ version_information.resources }}"
       loop_control:
         index_var: version_index
-      when: version_index < ("{{ cv_version }}" - 2)
+      when: version_index < (cv_version  - 2)
