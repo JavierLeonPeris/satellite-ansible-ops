@@ -12,4 +12,5 @@
     - ../Satellite_CaC/content_views.yml
     - ../Satellite_CaC/repositories.yml
   roles:
-    - role: redhat.satellite.content_views
+    #- role: redhat.satellite.content_views
+    - role: redhat.satellite.repositories
