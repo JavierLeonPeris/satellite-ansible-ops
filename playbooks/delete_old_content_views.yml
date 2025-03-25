@@ -33,6 +33,10 @@
         var: version_information
         verbosity: 1
 
+    - name: set latest version
+      set_fact:
+        cv_version: "{{ version_information.resources[0].version }}"
+
     - name: Delete older versions
       redhat.satellite.content_view_version:
         <<: *login
