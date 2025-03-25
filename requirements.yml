@@ -1,2 +1,2 @@
-#collections:
-#  - redhat.satellite
+collections:
+  - community.general
