@@ -54,10 +54,10 @@
         var: cv_version
         verbosity: 1
 
-    - name: Delete the first two items of cv_version list
+    - name: Delete the first 4 items of cv_version list
       set_fact:
-        cv_version: "{{ cv_version[2:] }}"
-      when: cv_version | length > 2
+        cv_version: "{{ cv_version[4:] }}"
+      when: cv_version | length > 4
 
     - name: Display cv_version list after deletion
       debug:
@@ -72,6 +72,3 @@
         version: "{{ item }}"
         state: absent
       loop: "{{ cv_version }}"
-      #loop_control:
-      #  index_var: version_index
-      #when: version_index < cv_version
