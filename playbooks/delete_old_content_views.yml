@@ -54,14 +54,24 @@
         var: cv_version
         verbosity: 1
 
+    - name: Delete the first two items of cv_version list
+      set_fact:
+        cv_version: "{{ cv_version[2:] }}"
+      when: cv_version | length > 2
+
+    - name: Display cv_version list after deletion
+      debug:
+        var: cv_version
+        verbosity: 1
+
     - name: Delete older versions
       redhat.satellite.content_view_version:
         <<: *login
         organization: "Default Organization"
         content_view: "{{ cv_name }}"
-        version: "{{ item.version }}"
+        version: "{{ item }}"
         state: absent
-      loop: "{{ version_information.resources }}"
-      loop_control:
-        index_var: version_index
-      when: version_index < cv_version
+      loop: "{{ cv_version }}"
+      #loop_control:
+      #  index_var: version_index
+      #when: version_index < cv_version
