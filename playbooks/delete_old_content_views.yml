@@ -14,7 +14,7 @@
     - name: find all CVs
       redhat.satellite.resource_info:
         <<: *login
-        organization: "Default Organization"
+        organization: "{{ organization }}"
         resource: content_views
         search: 'name="{{ cv_name }}"'
       register: example_content
@@ -22,7 +22,7 @@
     - name: "find content view versions of {{ cv_name }}"
       redhat.satellite.resource_info:
         <<: *login
-        organization: "Default Organization"
+        organization: "{{ organization }}"
         resource: content_view_versions
         params:
           content_view_id: "{{ example_content.resources[0].id }}"
@@ -67,7 +67,7 @@
     - name: Delete older versions
       redhat.satellite.content_view_version:
         <<: *login
-        organization: "Default Organization"
+        organization: "{{ organization }}"
         content_view: "{{ cv_name }}"
         version: "{{ item }}"
         state: absent
