@@ -29,6 +29,19 @@
         var: example_content.resources[0].versions
         verbosity: 1
 
+    - name: find all LFE
+      redhat.satellite.resource_info:
+        <<: *login
+        organization: "{{ organization }}"
+        resource: lifecycle_environments
+      register: lfe_output
+      
+    - name: Display content of lfe_output
+      debug:
+        var: lfe_output
+        verbosity: 1
+
+
     - name: "find content view versions of {{ cv_name }}"
       redhat.satellite.resource_info:
         <<: *login
