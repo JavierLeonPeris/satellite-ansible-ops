@@ -30,7 +30,7 @@
         organization: "{{ organization }}"
         resource: content_view_versions
         params:
-          content_view_id: "{{ example_content.resources[0].id }}"
+          content_view_id: "{{ example_content.resources[0].versions }}"
       register: version_information
 
     - name: Display content of version_information
