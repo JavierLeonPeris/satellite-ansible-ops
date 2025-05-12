@@ -19,6 +19,11 @@
         search: 'name="{{ cv_name }}"'
       register: example_content
 
+    - name: Display content of example_content
+      debug:
+        var: example_content
+        verbosity: 1
+
     - name: "find content view versions of {{ cv_name }}"
       redhat.satellite.resource_info:
         <<: *login
