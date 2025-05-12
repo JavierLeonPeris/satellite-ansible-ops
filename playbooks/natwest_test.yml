@@ -1,0 +1,74 @@
+# Obtain more details about all versions of a specific Content View
+---
+- hosts: localhost
+  connection: local
+  gather_facts: yes
+  vars:
+    login: &login
+      server_url: "{{ server_url}}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      validate_certs: "{{ validate_certs }}"
+  tasks:
+  # Obtain information about a Content View and its versions
+    - name: find all CVs
+      redhat.satellite.resource_info:
+        <<: *login
+        organization: "{{ organization }}"
+        resource: content_views
+        search: 'name="{{ cv_name }}"'
+      register: example_content
+
+    - name: "find content view versions of {{ cv_name }}"
+      redhat.satellite.resource_info:
+        <<: *login
+        organization: "{{ organization }}"
+        resource: content_view_versions
+        params:
+          content_view_id: "{{ example_content.resources[0].id }}"
+      register: version_information
+
+    - name: Display content of version_information
+      debug:
+        var: version_information
+        verbosity: 1
+
+    - name: Display all versions 
+      debug:
+        msg: "{{ item.version }}"
+        verbosity: 1
+      loop: "{{ version_information.resources }}"
+
+    - name: Initialize cv_version list
+      set_fact:
+        cv_version: []
+
+    - name: Add versions to cv_version list
+      set_fact:
+        cv_version: "{{ cv_version + [item.version] }}"
+      loop: "{{ version_information.resources }}"
+      when: item.version is defined
+
+    - name: Display cv_version list
+      debug:
+        var: cv_version
+        verbosity: 1
+
+#    - name: Delete the first 4 items of cv_version list
+#      set_fact:
+#        cv_version: "{{ cv_version[4:] }}"
+#      when: cv_version | length > 4
+#
+#    - name: Display cv_version list after deletion
+#      debug:
+#        var: cv_version
+#        verbosity: 1
+#
+#    - name: Delete older versions
+#      redhat.satellite.content_view_version:
+#        <<: *login
+#        organization: "{{ organization }}"
+#        content_view: "{{ cv_name }}"
+#        version: "{{ item }}"
+#        state: absent
+#      loop: "{{ cv_version }}"
