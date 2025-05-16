@@ -29,6 +29,7 @@
         var: example_content.resources[0].versions
         verbosity: 1
 
+#------------------ LFE ---------------------
     - name: find all LFE
       redhat.satellite.resource_info:
         <<: *login
@@ -41,6 +42,13 @@
         var: lfe_output
         verbosity: 1
 
+    - name: Display LFE versions
+      debug:
+        msg: "{{ lfe_output | community.general.json_query('resources[*].versions[*]') }}"
+        verbosity: 1
+
+
+#--------------------------------------------
 
     - name: "find content view versions of {{ cv_name }}"
       redhat.satellite.resource_info:
